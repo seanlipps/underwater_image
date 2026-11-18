@@ -81,9 +81,9 @@ log_config = dict(
         dict(type='VisdomLoggerHook')
     ])
 
-total_epoch = 1000
+total_epoch = 70
 total_iters = None                      # epoch before iters,
-work_dir = './checkpoints/UIEC2Net_UIEB/1'      #
+work_dir = '/content/drive/MyDrive/UW_checkpoints/UIEC2Net_UIEB'      #
 load_from = None                        # only load network parameters
 resume_from = None                      # resume training
 save_freq_iters = 500                   # saving frequent (saving every XX iters)

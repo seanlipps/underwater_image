@@ -11,16 +11,16 @@ import os.path as osp
 from torch.nn.parallel import DataParallel
 import collections
 import visdom
-from UW.utils.read_file import Config
-from UW.core.Models import build_network
-from UW.core.Datasets import build_dataset, build_dataloader
-from UW.core.Optimizer import build_optimizer, build_scheduler
-from UW.utils import (mkdir_or_exist, get_root_logger,
+from utils.read_file import Config
+from core.Models import build_network
+from core.Datasets import build_dataset, build_dataloader
+from core.Optimizer import build_optimizer, build_scheduler
+from utils import (mkdir_or_exist, get_root_logger,
                       save_epoch, save_latest, save_item,
                       resume, load)
-from UW.core.Losses import build_loss
-from UW.utils.Visualizer import Visualizer
-from UW.utils.save_image import normimage, normPRED
+from core.Losses import build_loss
+from utils.Visualizer import Visualizer
+from utils.save_image import normimage, normPRED
 
 from tensorboardX import SummaryWriter
 TORCH_VERSION = torch.__version__
@@ -163,11 +163,10 @@ if __name__ == '__main__':
             # loss_fft = (loss_up_1 + loss_up_2 + loss_up_3) / 6
             loss_l1 = criterion_l1_loss(out_rgb, gt)
             loss_ssim = criterion_ssim_loss(out_rgb, gt)
-            loss_perc = criterion_perc_loss(out_rgb, gt, cfg)
-            # loss_perc = criterion_tv_loss(out_rgb, gt)
+            loss_perc = torch.zeros_like(loss_ssim)            # loss_perc = criterion_tv_loss(out_rgb, gt)
             loss_tv = torch.zeros_like(loss_ssim)
             # loss_tv = criterion_tv_loss(out_rgb, gt)
-            loss = loss_l1 + loss_ssim +loss_tv
+            loss = loss_l1 + loss_ssim
             # loss_l1 = loss_perc = loss_tv = loss_ssim
             # loss = loss_ssim
             loss.backward()

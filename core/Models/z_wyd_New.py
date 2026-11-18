@@ -8,7 +8,7 @@ from core.Models.backbone.resnet import Bottleneck
 from core.Models.weight_init import normal_init, xavier_init
 
 
-@NETWORK.register_module()
+@NETWORK.register_module(force=True)
 class DCPDehazeSimple(BaseNet):
     def __init__(self,
                  backbone,

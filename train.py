@@ -119,8 +119,8 @@ if __name__ == '__main__':
     visualizer = Visualizer()
     vis = visdom.Visdom()
     criterion_ssim_loss = build_loss(cfg.loss_ssim)
-    # criterion_l1_loss = build_loss(cfg.loss_l1)
-    # criterion_perc_loss = build_loss(cfg.loss_perc)
+    criterion_l1_loss = build_loss(cfg.loss_l1)
+    criterion_perc_loss = build_loss(cfg.loss_perc)
     # criterion_tv_loss = build_loss(cfg.loss_tv)
 
     ite_num = 0
@@ -161,14 +161,15 @@ if __name__ == '__main__':
             # loss_up_2 = criterion_l1_loss(up_2_out, gt)
             # loss_up_3 = criterion_l1_loss(up_3_out, gt)
             # loss_fft = (loss_up_1 + loss_up_2 + loss_up_3) / 6
-            # loss_l1 = criterion_l1_loss(out_rgb, gt)
+            loss_l1 = criterion_l1_loss(out_rgb, gt)
             loss_ssim = criterion_ssim_loss(out_rgb, gt)
-            # loss_perc = criterion_perc_loss(out_rgb, gt, cfg)
+            loss_perc = criterion_perc_loss(out_rgb, gt, cfg)
             # loss_perc = criterion_tv_loss(out_rgb, gt)
+            loss_tv = torch.zeros_like(loss_ssim)
             # loss_tv = criterion_tv_loss(out_rgb, gt)
-            # loss = loss_l1 + loss_ssim +loss_tv
-            loss_l1 = loss_perc = loss_tv = loss_ssim
-            loss = loss_ssim
+            loss = loss_l1 + loss_ssim +loss_tv
+            # loss_l1 = loss_perc = loss_tv = loss_ssim
+            # loss = loss_ssim
             loss.backward()
             optimizer.step()
 

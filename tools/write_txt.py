@@ -1,27 +1,10 @@
 import os
 
+root = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'DATA')
 
-def getfiles():
-    filenames=os.listdir('../DATA/EUVP')
-    print(filenames)
-    return filenames
-
-
-
-if __name__ == '__main__':
-
-    if not os.path.exists('train.txt'):
-        os.mknod('train.txt')
-
-    a = getfiles()
-    # a.spilt('')
-    l = len(a)
-    with open("train.txt", "w") as f:
-        for i in range(l):
-            print(a[i])
-            x = a[i]
-            f.write(x)
-            f.write('\n')
-        f.close()
-
-    print()
+for split, sub, txt in [('Train', 'train', 'train.txt'), ('Test', 'test', 'test.txt')]:
+    folder = os.path.join(root, split, sub)
+    names = sorted(f for f in os.listdir(folder) if f.lower().endswith('.png'))
+    with open(os.path.join(root, split, txt), 'w') as f:
+        f.write('\n'.join(names) + '\n')
+    print(split, len(names), 'images')
